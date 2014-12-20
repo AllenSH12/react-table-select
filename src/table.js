@@ -45,15 +45,21 @@ var TableHead = React.createClass({
   }
 });
 
+var TableRow = React.createClass({
+  render: function() {
+    return React.createElement('tr', null,
+      this.props.fields.map(function(field, i) {
+        return React.createElement('td', { key: i }, this.props.datum[field] ? this.props.datum[field] : '');
+      }, this)
+    );
+  }
+});
+
 var TableBody = React.createClass({
   render: function() {
     return React.createElement('tbody', null,
       this.props.data.map(function(datum, i) {
-        return React.createElement('tr', { key: i },
-          this.props.fields.map(function(field, i) {
-            return React.createElement('td', { key: i }, datum[field] ? datum[field] : '');
-          })
-        );
+        return React.createElement(TableRow, { datum: datum, fields: this.props.fields, key: i });
       }, this)
     );
   }
