@@ -109,7 +109,7 @@ var Table = React.createClass({
 
     if (currentIndex >= 0) {
       // remove this entry from selectedRows
-      selectedRows.splice(currIndex, 1);
+      selectedRows.splice(currentIndex, 1);
     } else {
       // add this entry to selectedRows
       selectedRows.push(i);
