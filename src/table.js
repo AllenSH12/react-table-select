@@ -5,7 +5,7 @@ var data = [
   {
     "age": "<5",
     "population": "2704659",
-    "minor": true
+    "minor": "true"
   },
   {
     "age": "5-13",
@@ -35,15 +35,9 @@ var data = [
 
 var TableHead = React.createClass({
   render: function() {
-    var fields = _.chain(this.props.data)
-        .map(function(entry) { return Object.keys(entry); })
-        .flatten()
-        .uniq()
-        .value();
-
     return React.createElement('thead', null,
       React.createElement('tr', null,
-        fields.map(function(field, i) {
+        this.props.fields.map(function(field, i) {
           return React.createElement('th', { key: i }, field);
         })
       )
@@ -56,9 +50,11 @@ var TableBody = React.createClass({
     return React.createElement('tbody', null,
       this.props.data.map(function(datum, i) {
         return React.createElement('tr', { key: i },
-          React.createElement('td', null, 1)
+          this.props.fields.map(function(field, i) {
+            return React.createElement('td', { key: i }, datum[field] ? datum[field] : '');
+          })
         );
-      })
+      }, this)
     );
   }
 });
@@ -71,10 +67,16 @@ var Table = React.createClass({
   },
 
   render: function() {
+    var fields = _.chain(data)
+        .map(function(entry) { return Object.keys(entry); })
+        .flatten()
+        .uniq()
+        .value();
+
     return (
       React.createElement('table', null,
-        React.createElement(TableHead, { data: data }),
-        React.createElement(TableBody, { data: data })
+        React.createElement(TableHead, { fields: fields }),
+        React.createElement(TableBody, { data: data, fields: fields })
       )
     );
   }
