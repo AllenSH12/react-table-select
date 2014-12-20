@@ -10,5 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "react": "^0.12.2"
+  },
+  "devDependencies": {
+    "browserify": "^7.0.3",
+    "gulp": "^3.8.10",
+    "reactify": "^0.17.1",
+    "vinyl-source-stream": "^1.0.0"
   }
 }
