@@ -1,6 +1,6 @@
 {
   "name": "react-table-select",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React table with selectable rows.",
   "main": "index.js",
   "scripts": {
