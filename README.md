@@ -7,9 +7,9 @@ An example table styled using [Bootstrap](https://github.com/twbs/bootstrap):
 (media/react-table-select.png)
 
 ##Usage
-To install from GitHub: (not published to npm yet)
+To install:
 ```sh
-npm install --save AllenSH12/react-table-select
+npm install --save react-table-select
 ```
 
 Assuming you're using JSX:
