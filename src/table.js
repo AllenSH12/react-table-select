@@ -1,38 +1,6 @@
 var React = require('react');
 var _ = require('lodash');
 
-var data = [
-  {
-    "age": "<5",
-    "population": "2704659",
-    "minor": "true"
-  },
-  {
-    "age": "5-13",
-    "population": "4499890"
-  },
-  {
-    "age": "14-17",
-    "population": "2159981"
-  },
-  {
-    "age": "18-24",
-    "population": "3853788"
-  },
-  {
-    "age": "25-44",
-    "population": "14106543"
-  },
-  {
-    "age": "45-64",
-    "population": "8819342"
-  },
-  {
-    "age": "≥65",
-    "population": "612463"
-  }
-];
-
 var TableHead = React.createClass({
   handleChange: function(e) {
     this.props.onChange(e);
@@ -87,8 +55,7 @@ var Table = React.createClass({
   },
 
   handleHeaderChange: function(e) {
-    // TODO get this ref to data out of here
-    var numRows = data.length;
+    var numRows = this.props.data.length;
     var selectedRows = [];
     var checked = e.target.checked;
 
@@ -96,8 +63,13 @@ var Table = React.createClass({
       selectedRows = _.range(numRows);
     }
 
-    console.log(selectedRows);
+    var tableNode = this.getDOMNode();
+    var rowCheckboxes = tableNode.querySelectorAll('td > input[type=checkbox]');
+    _.range(numRows).map(function(index) {
+      rowCheckboxes[index].checked = checked;
+    });
 
+    this.props.onChange(selectedRows);
     this.setState({
       selectedRows: selectedRows
     });
@@ -106,23 +78,34 @@ var Table = React.createClass({
   handleRowChange: function(i, e) {
     var selectedRows = this.state.selectedRows;
     var currentIndex = selectedRows.indexOf(i);
+    var deselectingRow = currentIndex >= 0;
+    var selectingLastRow = this.props.data.length - 1 === this.state.selectedRows.length && !deselectingRow;
+    var deselectingLastRow = deselectingRow && this.props.data.length === this.state.selectedRows.length;
 
-    if (currentIndex >= 0) {
+    if (selectingLastRow) {
+      // check header checkbox and add this entry to selectedRows
+      this.getDOMNode().querySelector('th > input[type=checkbox]').checked = true;
+      selectedRows.push(i);
+    } else if (deselectingLastRow) {
+      // uncheck header checkbox and remove this entry from selectedRows
+      this.getDOMNode().querySelector('th > input[type=checkbox]').checked = false;
+      selectedRows.splice(currentIndex, 1);
+    } else if (deselectingRow) {
       // remove this entry from selectedRows
       selectedRows.splice(currentIndex, 1);
     } else {
       // add this entry to selectedRows
       selectedRows.push(i);
     }
-    console.log(selectedRows);
 
+    this.props.onChange(selectedRows);
     this.setState({
       selectedRows: selectedRows
     });
   },
 
   render: function() {
-    var fields = _.chain(data)
+    var fields = _.chain(this.props.data)
         .map(function(entry) { return Object.keys(entry); })
         .flatten()
         .uniq()
@@ -131,8 +114,7 @@ var Table = React.createClass({
     return (
       React.createElement('table', { className: this.props.className },
         React.createElement(TableHead, { fields: fields, onChange: this.handleHeaderChange }),
-        // TODO get this ref to data out of here
-        React.createElement(TableBody, { data: data, fields: fields, onChange: this.handleRowChange })
+        React.createElement(TableBody, { data: this.props.data, fields: fields, onChange: this.handleRowChange })
       )
     );
   }
