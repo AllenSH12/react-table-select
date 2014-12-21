@@ -29,13 +29,23 @@ render: function() {
 
 Pass a callback to work with the event and selectedRows when they change:
 ```js
-callback(event, selectedRows)
+callback(event, selectedRows) {}
 ```
+- `event` will be a React [SyntheticEvent](https://facebook.github.io/react/docs/events.html#syntheticevent)
+- `selectedRows` will be an Array
 
 To access the selected rows from outside of the component save it as a ref:
 ```js
 this.refs.table.state.selectedRows
 ```
+
+###SelectedRows
+`selectedRows` will be an `Array` of `Int`, the indices of the currently selected rows (empty if no rows are selected). Some concrete examples:
+- No rows selected, `selectedRows` should be `[]`
+- 1st row selected, `selectedRows` should be `[0]`
+- 1st, 2nd, & 4th rows selected, `selectedRows` should be `[0, 1, 3]`
+
+With the indices of the selected rows the selected data can be easily found using a `.map()` operation or similar.
 
 ##Example
 A small example is included, to see it in action follow these steps:
