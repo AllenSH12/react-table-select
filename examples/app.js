@@ -49,7 +49,6 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <button className='btn btn-default' onClick={this.handleClick}>Click Me!</button>
         <Table className="table" ref="table" data={data} onChange={this.handleChange} />
       </div>
 
