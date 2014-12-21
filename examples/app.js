@@ -36,9 +36,21 @@ var data = [
 ];
 
 var App = React.createClass({
+  getInitialState: function() {
+    return {
+      data: data
+    };
+  },
+
   handleChange: function(e, selectedRows) {
     console.log('From change:');
     console.log(selectedRows);
+  },
+
+  handleDelete: function(e) {
+    var data = this.state.data.slice(0);
+    data.splice(0, 1);
+    this.setState({ data: data });
   },
 
   handleClick: function(e) {
@@ -48,8 +60,20 @@ var App = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <Table className="table" ref="table" data={data} onChange={this.handleChange} />
+      <div className='container'>
+        <div className='row'>
+          <div className='col-xs-6'>
+            <button className='btn btn-default btn-block' onClick={this.handleDelete}>Delete stuff</button>
+          </div>
+          <div className='col-xs-6'>
+            <button className='btn btn-default btn-block' onClick={this.handleClick}>Log selected</button>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-sm-12'>
+            <Table className='table' ref='table' data={this.state.data} onChange={this.handleChange} />
+          </div>
+        </div>
       </div>
 
     );

@@ -61,3 +61,10 @@ python -m SimpleHTTPServer # or an HTTP server of your choice
 
 # visit localhost:8000 in your browser
 ```
+
+##Testing
+Tests are implemented with Facebook's [Jest](https://github.com/facebook/jest) and can be run via npm:
+```sh
+npm install # Only needs to be run the 1st time
+npm test
+```
