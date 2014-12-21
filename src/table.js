@@ -1,57 +1,14 @@
 var React = require('react');
 var _ = require('lodash');
 
-var TableHead = React.createClass({
-  handleChange: function(e) {
-    this.props.onChange(e);
-  },
-
-  render: function() {
-    return React.createElement('thead', null,
-      React.createElement('tr', null,
-        React.createElement('th', null,
-          React.createElement('input', { type: 'checkbox', onChange: this.handleChange })
-        ),
-        this.props.fields.map(function(field, i) {
-          return React.createElement('th', { key: i }, field);
-        })
-      )
-    );
-  }
-});
-
-var TableRow = React.createClass({
-  handleChange: function(i, e) {
-    this.props.onChange(i, e);
-  },
-
-  render: function() {
-    return React.createElement('tr', null,
-      React.createElement('td', null,
-        React.createElement('input', { type: 'checkbox', onChange: this.handleChange.bind(this, this.props.index) })
-      ),
-      this.props.fields.map(function(field, i) {
-        return React.createElement('td', { key: i }, this.props.datum[field] ? this.props.datum[field] : '');
-      }, this)
-    );
-  }
-});
-
-var TableBody = React.createClass({
-  render: function() {
-    return React.createElement('tbody', null,
-      this.props.data.map(function(datum, i) {
-        return React.createElement(TableRow, { datum: datum, fields: this.props.fields, key: i, index: i, onChange: this.props.onChange });
-      }, this)
-    );
-  }
-});
+var TableHead = require('./table-head');
+var TableBody = require('./table-body');
 
 var Table = React.createClass({
   getInitialState: function() {
-      return {
-        selectedRows: []
-      };
+    return {
+      selectedRows: []
+    };
   },
 
   handleHeaderChange: function(e) {
@@ -106,15 +63,26 @@ var Table = React.createClass({
 
   render: function() {
     var fields = _.chain(this.props.data)
-        .map(function(entry) { return Object.keys(entry); })
-        .flatten()
-        .uniq()
-        .value();
+      .map(function(entry) {
+        return Object.keys(entry);
+      })
+      .flatten()
+      .uniq()
+      .value();
 
     return (
-      React.createElement('table', { className: this.props.className },
-        React.createElement(TableHead, { fields: fields, onChange: this.handleHeaderChange }),
-        React.createElement(TableBody, { data: this.props.data, fields: fields, onChange: this.handleRowChange })
+      React.createElement('table', {
+          className: this.props.className
+        },
+        React.createElement(TableHead, {
+          fields: fields,
+          onChange: this.handleHeaderChange
+        }),
+        React.createElement(TableBody, {
+          data: this.props.data,
+          fields: fields,
+          onChange: this.handleRowChange
+        })
       )
     );
   }
