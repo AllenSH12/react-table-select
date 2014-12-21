@@ -1,0 +1,5 @@
+examples/
+media/
+src/__tests__/
+preprocessor.js
+gulpfile.js
