@@ -11,6 +11,10 @@ var Table = React.createClass({
     };
   },
 
+  /**
+   * set selectedRows to all (de)selected and update UI accordingly
+   * @param {SyntheticEvent} e click event on checkbox in header
+   */
   handleHeaderChange: function(e) {
     var numRows = this.props.data.length;
     var selectedRows = [];
@@ -26,12 +30,20 @@ var Table = React.createClass({
       rowCheckboxes[index].checked = checked;
     });
 
-    this.props.onChange(selectedRows);
+    this.props.onChange(e, selectedRows);
     this.setState({
       selectedRows: selectedRows
     });
   },
 
+  /**
+   * respond to a user (de)selecting a single row
+   * much of the logic here is focused on a user (de)selecting the last row so
+   * that the '(de)select all' checkbox in the header shows the right state
+   *
+   * @param {Int} i the index of the row that was clicked
+   * @param {SyntheticEvent} e the click event that caused this change
+   */
   handleRowChange: function(i, e) {
     var selectedRows = this.state.selectedRows;
     var currentIndex = selectedRows.indexOf(i);
@@ -39,15 +51,15 @@ var Table = React.createClass({
     var selectingLastRow = this.props.data.length - 1 === this.state.selectedRows.length && !deselectingRow;
     var deselectingLastRow = deselectingRow && this.props.data.length === this.state.selectedRows.length;
 
+    var selectAllCheckbox = this.getDOMNode().querySelector('th > input[type=checkbox]');
+
     if (selectingLastRow) {
-      // check header checkbox and add this entry to selectedRows
-      this.getDOMNode().querySelector('th > input[type=checkbox]').checked = true;
-      selectedRows.push(i);
+      selectAllCheckbox.checked = true;
     } else if (deselectingLastRow) {
-      // uncheck header checkbox and remove this entry from selectedRows
-      this.getDOMNode().querySelector('th > input[type=checkbox]').checked = false;
-      selectedRows.splice(currentIndex, 1);
-    } else if (deselectingRow) {
+      selectAllCheckbox.checked = false;
+    }
+
+    if (deselectingRow) {
       // remove this entry from selectedRows
       selectedRows.splice(currentIndex, 1);
     } else {
@@ -55,7 +67,7 @@ var Table = React.createClass({
       selectedRows.push(i);
     }
 
-    this.props.onChange(selectedRows);
+    this.props.onChange(e, selectedRows);
     this.setState({
       selectedRows: selectedRows
     });
