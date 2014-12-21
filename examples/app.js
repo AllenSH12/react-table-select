@@ -36,7 +36,7 @@ var data = [
 ];
 
 var App = React.createClass({
-  handleChange: function(selectedRows) {
+  handleChange: function(e, selectedRows) {
     console.log('From change:');
     console.log(selectedRows);
   },
