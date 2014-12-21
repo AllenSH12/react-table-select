@@ -11,6 +11,27 @@ var Table = React.createClass({
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    var tableNode = this.getDOMNode();
+    var selectAllCheckbox = tableNode.querySelector('th > input[type=checkbox]');
+    selectAllCheckbox.checked = false;
+
+    this.setBodyCheckboxes(false);
+  },
+
+  /**
+   * update all of the checkboxes in the body
+   * @param {Boolean} checked check status to set the checkboxes to
+   */
+  setBodyCheckboxes: function(checked) {
+    var tableNode = this.getDOMNode();
+    var rowCheckboxes = tableNode.querySelectorAll('td > input[type=checkbox]');
+
+    _.range(rowCheckboxes.length).map(function(index) {
+      rowCheckboxes[index].checked = checked;
+    });
+  },
+
   /**
    * set selectedRows to all (de)selected and update UI accordingly
    * @param {SyntheticEvent} e click event on checkbox in header
@@ -24,11 +45,7 @@ var Table = React.createClass({
       selectedRows = _.range(numRows);
     }
 
-    var tableNode = this.getDOMNode();
-    var rowCheckboxes = tableNode.querySelectorAll('td > input[type=checkbox]');
-    _.range(numRows).map(function(index) {
-      rowCheckboxes[index].checked = checked;
-    });
+    this.setBodyCheckboxes(checked);
 
     this.props.onChange(e, selectedRows);
     this.setState({
@@ -48,6 +65,7 @@ var Table = React.createClass({
     var selectedRows = this.state.selectedRows;
     var currentIndex = selectedRows.indexOf(i);
     var deselectingRow = currentIndex >= 0;
+    
     var selectingLastRow = this.props.data.length - 1 === this.state.selectedRows.length && !deselectingRow;
     var deselectingLastRow = deselectingRow && this.props.data.length === this.state.selectedRows.length;
 
