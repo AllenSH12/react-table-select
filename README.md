@@ -3,8 +3,7 @@
 Table component with selectable rows for Facebook's [React](https://github.com/facebook/react)
 
 An example table styled using [Bootstrap](https://github.com/twbs/bootstrap):
-![Screenshot]
-(media/react-table-select.png)
+![Selectable table screenshot](media/react-table-select.png)
 
 ##Usage
 To install:
@@ -14,17 +13,14 @@ npm install --save react-table-select
 
 Assuming you're using JSX:
 ```js
+var React = require('react');
 var Table = require('react-table-select');
 
-render: function() {
-  return (
-    <Table
-      className="table"
-      ref="table"
-      data={data}
-      onChange={this.handleChange} />  
-  );
-}
+React.render(
+  <Table
+    className="table"
+    data={data}
+    onChange={this.handleChange} />, document.body);
 ```
 
 Pass a callback to work with the event and selectedRows when they change:
@@ -36,6 +32,8 @@ callback(event, selectedRows) {}
 
 To access the selected rows from outside of the component save it as a ref:
 ```js
+<Table ref="table" />
+
 this.refs.table.state.selectedRows
 ```
 
@@ -46,6 +44,9 @@ this.refs.table.state.selectedRows
 - 1st, 2nd, & 4th rows selected, `selectedRows` should be `[0, 1, 3]`
 
 With the indices of the selected rows the selected data can be easily found using a `.map()` operation or similar.
+
+###Props
+The component will pass along the className prop to it's child `table` element.
 
 ##Example
 A small example is included, to see it in action follow these steps:
