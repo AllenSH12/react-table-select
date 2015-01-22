@@ -1,5 +1,4 @@
 var React = require('react');
-var _ = require('lodash');
 
 var TableHead = require('./table-head');
 var TableBody = require('./table-body');
@@ -11,94 +10,96 @@ var Table = React.createClass({
     };
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    var tableNode = this.getDOMNode();
-    var selectAllCheckbox = tableNode.querySelector('th > input[type=checkbox]');
-    selectAllCheckbox.checked = false;
-
-    this.setBodyCheckboxes(false);
-  },
-
   /**
-   * update all of the checkboxes in the body
-   * @param {Boolean} checked check status to set the checkboxes to
+   * if any rows have been added or removed set selected rows to none
+   * @param {Object} nextProps  the next properties of the Table (updated data)
    */
-  setBodyCheckboxes: function(checked) {
-    var tableNode = this.getDOMNode();
-    var rowCheckboxes = tableNode.querySelectorAll('td > input[type=checkbox]');
+  componentWillReceiveProps: function(nextProps) {
+    var changingRowCount = this.props.data.length !== nextProps.data.length;
 
-    _.range(rowCheckboxes.length).map(function(index) {
-      rowCheckboxes[index].checked = checked;
-    });
+    if (changingRowCount) {
+      this.setState({ selectedRows: [] });
+    }
   },
 
   /**
    * set selectedRows to all (de)selected and update UI accordingly
-   * @param {SyntheticEvent} e click event on checkbox in header
+   * @param {Boolean} checked   check status of the all selected checkbox
    */
-  handleHeaderChange: function(e) {
-    var numRows = this.props.data.length;
-    var selectedRows = [];
-    var checked = e.target.checked;
+   handleHeadChange: function(checked) {
+     var selectedRows = [];
+     var i;
 
-    if (checked) {
-      selectedRows = _.range(numRows);
-    }
+     if (checked) {
+       for (i = 0; i < this.props.data.length; i++) {
+         selectedRows.push(i);
+       }
+     }
 
-    this.setBodyCheckboxes(checked);
-
-    this.props.onChange(e, selectedRows);
-    this.setState({
-      selectedRows: selectedRows
-    });
-  },
+     this.onChange(selectedRows);
+   },
 
   /**
    * respond to a user (de)selecting a single row
-   * much of the logic here is focused on a user (de)selecting the last row so
-   * that the '(de)select all' checkbox in the header shows the right state
-   *
-   * @param {Int} i the index of the row that was clicked
-   * @param {SyntheticEvent} e the click event that caused this change
+   * @param {Int} i             the index of the row that was clicked
+   * @param {Boolean} checked   the new check status of that row
    */
-  handleRowChange: function(i, e) {
-    var selectedRows = this.state.selectedRows;
-    var currentIndex = selectedRows.indexOf(i);
-    var deselectingRow = currentIndex >= 0;
-    
-    var selectingLastRow = this.props.data.length - 1 === this.state.selectedRows.length && !deselectingRow;
-    var deselectingLastRow = deselectingRow && this.props.data.length === this.state.selectedRows.length;
+   handleBodyChange: function(i, checked) {
+     var selectedRows = this.state.selectedRows.slice();
+     var index;
 
-    var selectAllCheckbox = this.getDOMNode().querySelector('th > input[type=checkbox]');
 
-    if (selectingLastRow) {
-      selectAllCheckbox.checked = true;
-    } else if (deselectingLastRow) {
-      selectAllCheckbox.checked = false;
-    }
+     function sortedIndex(array, newElement) {
+       var lessThan = array.filter(function(el, i) {
+         return el < newElement;
+       });
 
-    if (deselectingRow) {
-      // remove this entry from selectedRows
-      selectedRows.splice(currentIndex, 1);
-    } else {
-      // add this entry to selectedRows
-      selectedRows.push(i);
-    }
+       return lessThan.length;
+     }
 
-    this.props.onChange(e, selectedRows);
-    this.setState({
-      selectedRows: selectedRows
-    });
-  },
+     if (checked) {
+       index = sortedIndex(selectedRows, i);
+       selectedRows.splice(index, 0, i);
+
+     } else {
+       index = selectedRows.indexOf(i);
+       selectedRows.splice(index, 1);
+     }
+
+     this.onChange(selectedRows);
+   },
+
+   /**
+    * if applicable inform parent component of change, in any case
+    * update the component's internal state
+    * @param {[type]} selectedRows [description]
+    */
+   onChange: function(selectedRows) {
+     if (this.props.onChange) {
+       this.props.onChange(selectedRows);
+     }
+
+     this.setState({
+       selectedRows: selectedRows
+     });
+   },
 
   render: function() {
-    var fields = _.chain(this.props.data)
-      .map(function(entry) {
-        return Object.keys(entry);
-      })
-      .flatten()
-      .uniq()
-      .value();
+    var fields = this.props.data
+        .map(Object.keys)
+        .reduce(function(prev, curr) {
+          return prev.concat(curr);
+        }).filter(function(field, i, array) {
+          return array.indexOf(field) === i;
+        });
+
+    var selectedRows = this.state.selectedRows;
+    var allRowsSelected = this.props.data.length === selectedRows.length;
+
+    var rowStates = [];
+    selectedRows.map(function(row) {
+      rowStates[row] = true;
+    });
 
     return (
       React.createElement('table', {
@@ -106,12 +107,14 @@ var Table = React.createClass({
         },
         React.createElement(TableHead, {
           fields: fields,
-          onChange: this.handleHeaderChange
+          onChange: this.handleHeadChange,
+          checked: allRowsSelected
         }),
         React.createElement(TableBody, {
           data: this.props.data,
           fields: fields,
-          onChange: this.handleRowChange
+          checkedRows: rowStates,
+          onChange: this.handleBodyChange
         })
       )
     );

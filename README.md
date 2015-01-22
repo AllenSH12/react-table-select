@@ -2,8 +2,8 @@
 
 Table component with selectable rows for Facebook's [React](https://github.com/facebook/react)
 
-An example table styled using [Bootstrap](https://github.com/twbs/bootstrap):
-![Selectable table screenshot](media/react-table-select.png)
+The included example (styled w/ [Bootstrap](https://github.com/twbs/bootstrap)):
+![Selectable table screenshot](media/react-table-select.gif)
 
 ##Usage
 To install:
@@ -34,7 +34,7 @@ this.refs.table.state.selectedRows
 ##API: `TableSelect` (component)
 
 ###Props
-####`className` - `{String}`
+####`className` - `{String}` (optional)
 Set the class on this component's child `table` element. Use this to apply styles or anything else that you need.
 
 ####`data`  - `{Array}`
@@ -44,7 +44,7 @@ this.props.data = [{one: 'fish'}, {two: 'fish'}, {red: 'fish'}, {blue: 'fish'}]
 fields = [one, two, red, blue]
 ```
 
-####`onChange`  - `{Function}`
+####`onChange` - `{Function}` (optional)
 A callback to work with the event and selectedRows when they change:
 ```js
 callback(event, selectedRows) {}

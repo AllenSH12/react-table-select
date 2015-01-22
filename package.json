@@ -1,6 +1,6 @@
 {
   "name": "react-table-select",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": "https://github.com/AllenSH12/react-table-select.git",
   "description": "React table with selectable rows.",
   "main": "index.js",
@@ -16,7 +16,6 @@
   "author": "Allen Hernandez",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^2.4.1",
     "react": "^0.12.2",
     "react-tools": "^0.12.2"
   },

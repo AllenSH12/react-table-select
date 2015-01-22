@@ -2,22 +2,28 @@ var React = require('react');
 
 var TableHead = React.createClass({
   handleChange: function(e) {
-    this.props.onChange(e);
+    e.stopPropagation();
+
+    this.props.onChange(e.target.checked);
   },
 
   render: function() {
-    return React.createElement('thead', null,
+    return (
       React.createElement('tr', null,
         React.createElement('th', null,
           React.createElement('input', {
-            type: 'checkbox',
-            onChange: this.handleChange
+            'type': 'checkbox',
+            'aria-label': 'toggle all rows selected',
+            'checked': this.props.checked,
+            'onChange': this.handleChange
           })
         ),
         this.props.fields.map(function(field, i) {
-          return React.createElement('th', {
-            key: i
-          }, field);
+          return (
+            React.createElement('th', {
+              'key': i
+            }, field)
+          );
         })
       )
     );
