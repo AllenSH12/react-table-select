@@ -38,44 +38,75 @@ var data = [
 var App = React.createClass({
   getInitialState: function() {
     return {
-      data: data
+      data: data,
+      selected: []
     };
   },
 
-  handleChange: function(e, selectedRows) {
-    console.log('From change:');
+  unselect: function(e) {
+    e.preventDefault();
+
+    this.handleChange([]);
+
+    this.refs.table.setState({ selectedRows: [] });
+  },
+
+  log: function(e) {
+    e.preventDefault();
+
+    var selectedRows = this.refs.table.state.selectedRows;
     console.log(selectedRows);
   },
 
-  handleDelete: function(e) {
-    var data = this.state.data.slice(0);
-    data.splice(0, 1);
-    this.setState({ data: data });
+  fill: function(e) {
+    e.preventDefault();
+
+    var rows = [];
+
+    for (var i = 0; i < this.state.data.length; i++) {
+      rows.push(i);
+    }
+
+    this.handleChange(rows);
+
+    this.refs.table.setState({
+      selectedRows: rows
+    });
   },
 
-  handleClick: function(e) {
-    console.log('From click:');
-    console.log(this.refs.table.state.selectedRows);
+  handleChange: function(rows) {
+    this.setState({
+      selected: rows
+    });
   },
 
   render: function() {
     return (
-      <div className='container'>
-        <div className='row'>
-          <div className='col-xs-6'>
-            <button className='btn btn-default btn-block' onClick={this.handleDelete}>Delete stuff</button>
-          </div>
-          <div className='col-xs-6'>
-            <button className='btn btn-default btn-block' onClick={this.handleClick}>Log selected</button>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12 tester">
+            <h4>External Controls:</h4>
+            <div className="btn-group">
+              <button
+                className="btn btn-default"
+                onClick={this.fill}>Select All</button>
+              <button
+                className="btn btn-default"
+                onClick={this.unselect}>Unselect All</button>
+            </div>
+            <p className="selectedRowsString">Selected rows: {this.state.selected.join(', ')}</p>
           </div>
         </div>
-        <div className='row'>
-          <div className='col-sm-12'>
-            <Table className='table' ref='table' data={this.state.data} onChange={this.handleChange} />
+        <div className="row">
+          <div className="col-md-12">
+            <Table
+              className="table"
+              ref="table"
+              data={this.state.data}
+              onChange={this.handleChange} />
           </div>
         </div>
       </div>
-
     );
   }
 });
