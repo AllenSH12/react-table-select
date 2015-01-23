@@ -4,17 +4,18 @@
   "repository": "https://github.com/AllenSH12/react-table-select.git",
   "description": "React table with selectable rows.",
   "main": "index.js",
+  "author": "Allen Hernandez",
+  "license": "MIT",
   "scripts": {
     "test": "jest"
   },
+  "keywords": ["react-component"],
   "jest": {
     "scriptPreprocessor": "./preprocessor.js",
     "unmockedModulePathPatterns": [
       "./node_modules/react"
     ]
   },
-  "author": "Allen Hernandez",
-  "license": "ISC",
   "dependencies": {
     "react": "^0.12.2",
     "react-tools": "^0.12.2"

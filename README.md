@@ -2,7 +2,7 @@
 
 Table component with selectable rows for Facebook's [React](https://github.com/facebook/react)
 
-The included example (styled w/ [Bootstrap](https://github.com/twbs/bootstrap)):
+An example styled w/ [Bootstrap](https://github.com/twbs/bootstrap):
 ![Selectable table screenshot](media/react-table-select.gif)
 
 ##Usage
@@ -45,15 +45,14 @@ fields = [one, two, red, blue]
 ```
 
 ####`onChange` - `{Function}` (optional)
-A callback to work with the event and selectedRows when they change:
+A callback to work with the selectedRows when they change:
 ```js
-callback(event, selectedRows) {}
+callback = function(selectedRows) {}
 ```
-- `event` will be a React [SyntheticEvent](https://facebook.github.io/react/docs/events.html#syntheticevent)
-- `selectedRows` will be an `Array` of `Int`, the indices of the currently selected rows (empty if no rows are selected). Some concrete examples:
-  - No rows selected, `selectedRows` should be `[]`
-  - 1st row selected, `selectedRows` should be `[0]`
-  - 1st, 2nd, & 4th rows selected, `selectedRows` should be `[0, 1, 3]`
+`selectedRows` will be an `Array` of `Int`, the indices of the currently selected rows (empty if no rows are selected). Some concrete examples:
+- No rows selected, `selectedRows` should be `[]`
+- 1st row selected, `selectedRows` should be `[0]`
+- 1st, 2nd, & 4th rows selected, `selectedRows` should be `[0, 1, 3]`
 
 With the indices of the selected rows the selected data can be easily found using a `.map()` operation or similar.
 
