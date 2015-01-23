@@ -103,6 +103,7 @@ var App = React.createClass({
               className="table"
               ref="table"
               data={this.state.data}
+              columns={['population', 'age', 'minor']}
               onChange={this.handleChange} />
           </div>
         </div>

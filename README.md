@@ -5,12 +5,15 @@ Table component with selectable rows for Facebook's [React](https://github.com/f
 An example styled w/ [Bootstrap](https://github.com/twbs/bootstrap):
 ![Selectable table screenshot](media/react-table-select.gif)
 
-##Usage
-To install:
+## Installation
+This has been primarily developed for use with Browserify and as such is shared
+as a CommonJS module via npm.
+
 ```sh
 npm install --save react-table-select
 ```
 
+## Usage
 Assuming you're using JSX:
 ```js
 var React = require('react');
@@ -31,20 +34,23 @@ To access the selected rows from outside of the component save the component as 
 this.refs.table.state.selectedRows
 ```
 
-##API: `TableSelect` (component)
+## API
 
-###Props
-####`className` - `{String}` (optional)
+### Props
+#### `{string} className` (optional)
 Set the class on this component's child `table` element. Use this to apply styles or anything else that you need.
 
-####`data`  - `{Array}`
-An array of Objects to render as a selectable table. The table will create a column for every unique key it finds in the array. For example:
+#### `{array} data`
+An array of Objects to render as a selectable table.
+
+#### `{array} columns` (optional)
+Use this if you'd like to specify custom fields. By default the table will create a column for every unique key it finds in the array, for example:
 ```js
 this.props.data = [{one: 'fish'}, {two: 'fish'}, {red: 'fish'}, {blue: 'fish'}]
 fields = [one, two, red, blue]
 ```
 
-####`onChange` - `{Function}` (optional)
+#### `{function} onChange` (optional)
 A callback to work with the selectedRows when they change:
 ```js
 callback = function(selectedRows) {}

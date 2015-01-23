@@ -85,9 +85,10 @@ var Table = React.createClass({
    },
 
   render: function() {
-    var fields = this.props.data.map(Object.keys);
+    var customFields = this.props.columns;
+    var fields = customFields ? customFields : this.props.data.map(Object.keys);
 
-    if (fields.length) {
+    if (!customFields) {
       fields = fields.reduce(function(prev, curr) {
           return prev.concat(curr);
         }).filter(function(field, i, array) {
