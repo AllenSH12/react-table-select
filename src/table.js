@@ -85,8 +85,10 @@ var Table = React.createClass({
    },
 
   render: function() {
+    var data = this.props.data;
+
     var customFields = this.props.columns;
-    var fields = customFields ? customFields : this.props.data.map(Object.keys);
+    var fields = customFields ? customFields : data.map(Object.keys);
 
     if (!customFields) {
       fields = fields.reduce(function(prev, curr) {
@@ -97,7 +99,7 @@ var Table = React.createClass({
     }
 
     var selectedRows = this.state.selectedRows;
-    var allRowsSelected = this.props.data.length === selectedRows.length;
+    var allRowsSelected = data.length === selectedRows.length && data.length !== 0;
 
     var rowStates = [];
     selectedRows.map(function(row) {

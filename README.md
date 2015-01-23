@@ -34,24 +34,27 @@ To access the selected rows from outside of the component save the component as 
 this.refs.table.state.selectedRows
 ```
 
-## API
+## Props
 
-### Props
-#### `{string} className` (optional)
-Set the class on this component's child `table` element. Use this to apply styles or anything else that you need.
+#### `{string} className`
+
+Optional, set the class on this component's child `table` element. Use this to apply styles or anything else that you need.
 
 #### `{array} data`
+
 An array of Objects to render as a selectable table.
 
-#### `{array} columns` (optional)
-Use this if you'd like to specify custom fields. By default the table will create a column for every unique key it finds in the array, for example:
+#### `{array} columns`
+
+Optional, use this if you'd like to specify custom fields. By default the table will create a column for every unique key it finds in the array, for example:
 ```js
 this.props.data = [{one: 'fish'}, {two: 'fish'}, {red: 'fish'}, {blue: 'fish'}]
 fields = [one, two, red, blue]
 ```
 
-#### `{function} onChange` (optional)
-A callback to work with the selectedRows when they change:
+#### `{function} onChange`
+
+Optional, a callback to work with the selectedRows when they change:
 ```js
 callback = function(selectedRows) {}
 ```
