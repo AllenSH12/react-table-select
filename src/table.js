@@ -85,13 +85,15 @@ var Table = React.createClass({
    },
 
   render: function() {
-    var fields = this.props.data
-        .map(Object.keys)
-        .reduce(function(prev, curr) {
+    var fields = this.props.data.map(Object.keys);
+
+    if (fields.length) {
+      fields = fields.reduce(function(prev, curr) {
           return prev.concat(curr);
         }).filter(function(field, i, array) {
           return array.indexOf(field) === i;
         });
+    }
 
     var selectedRows = this.state.selectedRows;
     var allRowsSelected = this.props.data.length === selectedRows.length;
