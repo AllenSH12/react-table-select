@@ -3,6 +3,7 @@
 Table component with selectable rows for Facebook's [React](https://github.com/facebook/react)
 
 An example styled w/ [Bootstrap](https://github.com/twbs/bootstrap):
+
 ![Selectable table screenshot](media/react-table-select.gif)
 
 ## Installation

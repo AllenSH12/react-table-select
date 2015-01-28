@@ -1,6 +1,6 @@
 {
   "name": "react-table-select",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "repository": "https://github.com/AllenSH12/react-table-select.git",
   "description": "React table with selectable rows.",
   "main": "index.js",
@@ -9,7 +9,9 @@
   "scripts": {
     "test": "jest"
   },
-  "keywords": ["react-component"],
+  "keywords": [
+    "react-component"
+  ],
   "jest": {
     "scriptPreprocessor": "./preprocessor.js",
     "unmockedModulePathPatterns": [
