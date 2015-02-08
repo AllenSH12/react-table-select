@@ -10,8 +10,9 @@ describe('table body', function() {
 
     var fixtures = [{}, {}, {}];
 
+    // test fails if checkedRows or fields is not supplied
     var tbody = TestUtils.renderIntoDocument(
-      <TableBody data={fixtures} fields={[]} onChange={mock}/>
+      <TableBody data={fixtures} fields={[]} checkedRows={[]} onChange={mock}/>
     );
 
     var rows = TestUtils.scryRenderedDOMComponentsWithTag(tbody, 'tr');
