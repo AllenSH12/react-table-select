@@ -9,22 +9,24 @@ var TableHead = React.createClass({
 
   render: function() {
     return (
-      React.createElement('tr', null,
-        React.createElement('th', null,
-          React.createElement('input', {
-            'type': 'checkbox',
-            'aria-label': 'toggle all rows selected',
-            'checked': this.props.checked,
-            'onChange': this.handleChange
+      React.createElement('thead', null,
+        React.createElement('tr', null,
+          React.createElement('th', null,
+            React.createElement('input', {
+              'type': 'checkbox',
+              'aria-label': 'toggle all rows selected',
+              'checked': this.props.checked,
+              'onChange': this.handleChange
+            })
+          ),
+          this.props.fields.map(function(field, i) {
+            return (
+              React.createElement('th', {
+                'key': i
+              }, field)
+            );
           })
-        ),
-        this.props.fields.map(function(field, i) {
-          return (
-            React.createElement('th', {
-              'key': i
-            }, field)
-          );
-        })
+        )
       )
     );
   }
