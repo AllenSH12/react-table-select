@@ -1,6 +1,6 @@
 {
   "name": "react-table-select",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "repository": "https://github.com/AllenSH12/react-table-select.git",
   "description": "React table with selectable rows.",
   "main": "index.js",
